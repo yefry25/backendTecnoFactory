@@ -13,6 +13,11 @@ const usuarioSchema = new mongoose.Schema({
     correo: {
         type: String,
         required: true
+    },
+    password:{
+        type: String,
+        required: true,
+        minLength:6
     }
 }, {
     timestamps: true 
