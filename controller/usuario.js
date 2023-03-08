@@ -1,5 +1,6 @@
 import Usuario from "../model/usuario.js";
 import bcryptjs from "bcryptjs"
+import validar from "../middleware/validar.js"
 
 const usuario = {
     crearUsuario: async (req, res) => {
@@ -46,7 +47,15 @@ const usuario = {
             if(!validPassword) {
                 return res.status(400).json({ msg: "Password / correo incorrectos"})
             }
-            res.json({user})
+
+            let token=""
+            try {
+                token = await validar.generarJWT(user.id);
+            } catch (error) {
+                return res.status(500).json({msg:"Error al crear el token"})
+            }
+
+            res.json({user,token})
         } catch (error) {
             return res.status(500).json({ msg: "Hable con el WebMaster" })
         }
